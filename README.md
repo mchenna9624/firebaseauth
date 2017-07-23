@@ -52,3 +52,75 @@ ng serve --port 8080
 Now let’s dive into the src folder and get familiarized with the structure.
 
 
+## 2.1 package.json
+
+Open the package.json file and take a look at the dependencies. We have all the angular dependencies with the prefix @angular/.... 
+There are other dependencies that are needed for Angular 2 to run, such as RxJS, Zone.js, and some others. We are not going to cover them here in this post.
+
+## 2.2 src/index.html
+
+We are building a SPA (single page application) so everything is going to be loaded into the index.html. Let’s take a look in the src/index.html. 
+It’s pretty standard HTML5 code, except for two elements that are specific for our app:
+
+<base href="/">
+<app-root></app-root>
+base href is needed for Angular 2 routing to work properly. We are going to cover Routing latter in its topic.
+
+<app-root> this is not a standard HTMl tag. It’s actually defined by our Angular App. It’s an Angular component. More on this later.
+
+## 2.3 src/main.ts
+
+This is the part where our application starts bootstrapping (loading). Angular 2 can be used not just in browsers, but also on other platforms such as 
+mobile apps or even desktop apps. So, when we start our application we have to specify what platform we want to target. 
+That’s why we import: platform-browser-dynamic. Notice that we are also importing the AppModule from ./app/app.module.
+
+The most important line is:
+```
+platformBrowserDynamic().bootstrapModule(AppModule);
+```
+We are loading our AppModule into browser platform. 
+
+## 2.4 app/app.module.ts
+
+We are going to be using this file often. The most important part is the metadata inside the @NgModule. 
+There we have declarations, imports, providers and bootstrap.
+
+Declarations: goes all your components
+Imports: routes and modules go here.
+Bootstrap: list the component you want to load when the app starts. By default AppComponent.
+
+## 2.5 app/app.component.ts
+
+This looks a little similar to the app module, but instead of @NgModule we have @Component. 
+Again, the most important part is the value of the attributes (metadata). We have selector, templateUrl and styleUrls.
+
+selector: is the name of the component. Remember that we had <app-root></app-root>? This is where is defined. 
+templateUrl: This is where the HTML code is. <app-root> will be replaced for whatever you have in the template.
+styleUrls: You can have styles that only applies to this component. This is pretty neat! 
+You can change the styles with confidence knowing that it won’t bleed to other parts of the website.
+
+Inside the AppComponent class you can define variables (e.g. title) that are used in the templates 
+(e.g. Angular 2 Tutorial: Create a CRUD App with Angular CLI and TypeScript).
+
+Let’s change the title from app works! to 'MY TODOs'.
+
+## 2.6 app/app.component.html
+
+You will see some default code but important piece of code is 
+
+```
+<div style="text-align:center">
+  <h1>
+    Welcome to {{title}}!
+  </h1>
+</div>
+```
+
+{{title}} value will be derived from app.component.ts title variable which we changed earlier.
+
+Just keep above code and delete rest all the code. which is not needed for our demo app.
+
+Test your changes running:  ng serve 
+open port you specified in browser. In my case it is default which is  http://localhost:4200   you should see 'MY TODOs' on the scree 
+
+
