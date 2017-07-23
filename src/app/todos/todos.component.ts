@@ -8,10 +8,10 @@ import {TodoService} from './todo.service';
   providers: [TodoService]
 })
 export class TodosComponent implements OnInit {
-  private todos;
-  private activeTasks;
-  private newTodo;
-  private inactiveTasks;
+  public todos;
+  public activeTasks;
+  public newTodo;
+  public inactiveTasks;
 
 
 
