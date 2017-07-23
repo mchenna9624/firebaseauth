@@ -150,3 +150,20 @@ I moved all of my dev-dependencies to dependencies section in package.json file.
 #### Another alternative to the http-server solution explained here is to use the NGINX and <a href="https://github.com/heroku/heroku-buildpack-static" target="_blank">Heroku-buildpack-static.</a>
 
 
+# 4. Creating new Component with Angular CLI
+
+Let’s create a new component to display the todos. We can easily create by typing:
+
+```
+ng generate component todos
+```
+
+This command will generate a new folder with following 4 files and also updates app.module.ts to include newly generated TodosComponent
+
+```
+  create src/app/todos/todos.component.css
+  create src/app/todos/todos.component.html
+  create src/app/todos/todos.component.spec.ts
+  create src/app/todos/todos.component.ts
+  update src/app/app.module.ts
+```  
