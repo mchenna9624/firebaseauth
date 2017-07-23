@@ -514,7 +514,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TodosComponent } from './todos/todos.component';
-#####import { Routes, RouterModule } from '@angular/router';
+<bold>import { Routes, RouterModule } from '@angular/router';</bold>
 import { HttpModule } from '@angular/http';
 
 #####const routes: Routes = [
