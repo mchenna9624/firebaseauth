@@ -15,6 +15,6 @@ If you get the versions Node 4.x.x or higher and NPM 3.x.x. or higher you are al
 
 Let’s move on to Angular. We are going to create a Todo app. We will be able to CRUD (create-read-update-delete) tasks:
 
-Live Demo: Angular 2 Todo app preview
+Live Demo: <a href="https://stormy-woodland-23554.herokuapp.com/">Angular 2 Todo app</a>
 
 
