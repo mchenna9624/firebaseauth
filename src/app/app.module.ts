@@ -3,6 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TodosComponent } from './todos/todos.component';
+import { Routes, RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
+
+const routes: Routes = [
+  { path: ':status', component: TodosComponent },
+  { path: '**', redirectTo: '/all' }
+];
 
 @NgModule({
   declarations: [
@@ -10,7 +17,10 @@ import { TodosComponent } from './todos/todos.component';
     TodosComponent
   ],
   imports: [
-    BrowserModule, FormsModule
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

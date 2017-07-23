@@ -500,3 +500,55 @@ Lets add delete method in our service
     });
   }
 ```
+
+# 10. Routing and Navigation
+
+It’s time to activate the routing. When we click on the active button we want to show only the ones that are active. 
+Similarly, we want to filter by completed. Additionally, we want to the filters to change the route /active or /completed URLs.
+
+In AppComponent, we need to add the router library and define the routes as follows
+
+```
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AppComponent } from './app.component';
+import { TodosComponent } from './todos/todos.component';
+```
+import { Routes, RouterModule } from '@angular/router';
+```
+import { HttpModule } from '@angular/http';
+
+````
+const routes: Routes = [
+  { path: ':status', component: TodosComponent },
+  { path: '**', redirectTo: '/all' }
+];
+```
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    TodosComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    ```
+    RouterModule.forRoot(routes)
+    ```
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+First, we import the routing library. Then we define the routes that we need. We could have said path: 'active', component: 
+TodosComponent and the repeat the same for completed. But instead, we define a parameter called :status that could take any value (all, completed, active). 
+Any other value path we are going to redirect it to /all. That’s what the ** means.
+
+Finally, we add it to the imports. So the app module uses it. Since the AppComponent is using routes. Now we need to define the <router-outlet>. 
+That’s the place there the routes are going to render the component based on the path (in our case TodoComponent).
+
+Let’s go to app/app.component.html and replace <app-todos></app-todos> with <router-outlet></router-outlet>:
