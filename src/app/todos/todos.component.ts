@@ -11,6 +11,7 @@ export class TodosComponent implements OnInit {
   private todos;
   private activeTasks;
   private newTodo;
+  private inactiveTasks;
 
 
 
@@ -20,14 +21,36 @@ export class TodosComponent implements OnInit {
     return this.todoService.get().then(todos => {
       this.todos = todos;
       this.activeTasks = this.todos.filter(todo => todo.isDone).length;
+      this.inactiveTasks = this.todos.length - this.activeTasks;
     });
   }
 
   addTodo(){
-    this.todoService.add({title: this.newTodo, isDone: false}).then(() => {
+    this.todoService.add({_id: this.todos.length+1, title: this.newTodo, isDone: false}).then(() => {
       return this.getTodos();
     }).then(() => {
       this.newTodo = '';
+    });
+  }
+
+  updateTodo(todo, newValue) {
+    todo.title = newValue;
+    return this.todoService.put(todo).then(() => {
+      todo.editing = false;
+      return this.getTodos();
+    });
+  }
+
+  destroyTodo(todo){
+    this.todoService.delete(todo._id).then(() => {
+      return this.getTodos();
+    });
+  }
+
+  updateTodoStatus(todo){
+    todo.isDone = !todo.isDone;
+    return this.todoService.put(todo).then(() => {
+      return this.getTodos();
     });
   }
 

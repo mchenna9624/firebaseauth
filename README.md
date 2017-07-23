@@ -419,6 +419,84 @@ Then we created a new todo using the todo service method add. It doesn’t exist
 
 This adds the new element into the todos array and resolve the promise. That’s all. Go ahead a test it out creating a new todo element.
 
+### 9.3 UPDATE: On Double Click
 
+Let’s add an event listener to double click on each todo. That way, we can change the content. Editing is a tricky since we need to display an input form. 
+Then when the user clicks enter it should update the value. Finally, it should hide the input and display the label with the updated value. 
+Let’s do that by keeping a temp variable called editing which could be true or false.
 
+```
+<li *ngFor="let todo of todos" [ngClass]="{completed: todo.isDone, editing: todo.editing}" >
+        <div class="view">
+          <input class="toggle" type="checkbox" [checked]="todo.isDone">
+          <label (dblclick)="todo.editing = true">{{todo.title}}</label>
+          <button class="destroy"></button>
+        </div>
+        <input class="edit"
+               #updatedTodo
+               [value]="todo.title"
+               (blur)="updateTodo(todo, updatedTodo.value)"
+               (keyup.escape)="todo.editing = false"
+               (keyup.enter)="updateTodo(todo, updatedTodo.value)">
+</li>
+```
 
+Notice that we are adding a local variable in the template #updatedTodo. Then we use it to get the value like updateTodo.value and pass it to a function. 
+We want to update the variables on blur (when you click somewhere else) or on enter. Let’s add the function that actually updates the value in the component.
+
+Also, notice that we have a new CSS class applied to the element called editing. This is going to take care through CSS to hide and show the input element 
+when needed.
+
+```
+  updateTodo(todo, newValue) {
+    todo.title = newValue;
+    return this.todoService.put(todo).then(() => {
+      todo.editing = false;
+      return this.getTodos();
+    });
+  }
+```
+
+We update the new todo’s title and after the service has process the update we set editing to false. Finally, we reload all the tasks again. 
+Let’s add the put action on the service. But we have an issue. We actually need a unique id to identify each task. 
+When we hook up the service with a real backend we will get that from the database. Let’s add it manually for now. 
+
+```
+  put(updateTodoObj) {
+    return new Promise(resolve => {
+      let index = todos.findIndex(todo => todo._id === updateTodoObj._id);
+      todos[index].title = updateTodoObj.title;
+      resolve(updateTodoObj);
+    });
+  }
+  ```
+  
+### 9.4 DELETE: Delete Task on click X
+
+  Let us add click listener on X button
+  
+  ```
+<button class="destroy" (click)="destroyTodo(todo)"></button>  
+  ```
+
+Add the destoryTodo method to component
+
+```
+  destroyTodo(todo){
+    this.todoService.delete(todo._id).then(() => {
+      return this.getTodos();
+    });
+  }
+```
+
+Lets add delete method in our service
+
+```
+ delete(id) {
+    return new Promise(resolve => {
+      let index = todos.findIndex(todo => todo._id === id);
+      todos.splice(index, 1);
+      resolve(true);
+    });
+  }
+```
