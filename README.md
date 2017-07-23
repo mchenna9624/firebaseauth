@@ -168,5 +168,5 @@ This command will generate a new folder with following 4 files and also updates 
   update src/app/app.module.ts
 ```  
 Go ahead and inspect each one. It will look similar to the app components. 
-Go to src/app/app.component.html, and remove the <h1>Welcome to {{title}}!</h1> and replace it with: <app-todos></app-todos>
+Go to src/app/app.component.html, and remove the ```<h1>Welcome to {{title}}!</h1>``` and replace it with: ```<app-todos></app-todos>```
 If you have ng serve running, it should automatically update and show todos works!
