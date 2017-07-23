@@ -279,3 +279,146 @@ Notice how Angular CLI warns that the service is generated but not provided anyw
 It is up to you to register the service as a provider by adding it to the providers: [] array where you need it (e.g. in a module or component). 
 
 # 9. CRUD Functionality
+
+For enabling the create-read-update-delete functionality, we are going to be modifying three files:
+
+src/app/todos/todo.service.ts
+src/app/todos/todos.component.ts
+src/app/todos/todos.component.html
+Let’s get started!
+
+### 9.1 READ: Get All Tasks
+
+Let's modify the todo.service.js to be able to get tasks
+
+```
+import { Injectable } from '@angular/core';
+
+let todos = [
+  {title: 'attend meetup on service workers and pwd', isDone: true},
+  {title: 'attend meetup on python', isDone: true},
+  {title: 'learn internet of things with bluetooth technology', isDone: false},
+  {title: 'learn programming automate cars', isDone: false}
+];
+
+@Injectable()
+export class TodoService {
+
+  constructor() { }
+
+  get(){
+    return new Promise(resolve => {resolve(todos)});
+  }
+}
+```
+
+Now we need to change our todos component to use the service that we created.
+
+```
+import { Component, OnInit } from '@angular/core';
+import {TodoService} from './todo.service';
+
+@Component({
+  selector: 'app-todos',
+  templateUrl: './todos.component.html',
+  styleUrls: ['./todos.component.css'],
+  providers: [TodoService]
+})
+export class TodosComponent implements OnInit {
+  private todos;
+  private activeTasks;
+
+
+
+  constructor(private todoService: TodoService) { }
+
+  getTodos(){
+    return this.todoService.get().then(todos => {
+      this.todos = todos;
+      this.activeTasks = this.todos.filter(todo => todo.isDone).length;
+    });
+  }
+
+  ngOnInit() {
+    this.getTodos();
+  }
+
+}
+```
+
+The first change is importing our TodoService and adding it to the providers. Then we use the constructor of the component to load the TodoService. 
+While we inject the service we can hold a private instance of it in the variable todoService. Finally, we use it in the getTodos method. 
+This will make a variable todos available in the template where we can render the tasks.
+
+Let’s change the template so we can render the data from the service. Go to the todos.component.html and change what is inside the <li></li> for this one:
+
+```
+      <li *ngFor="let todo of todos" [ngClass]="{completed: todo.isDone}" >
+        <div class="view">
+          <input class="toggle" type="checkbox" [checked]="todo.isDone">
+          <label>{{todo.title}}</label>
+          <button class="destroy"></button>
+        </div>
+        <input class="edit" value="{{todo.title}}">
+      </li>
+```
+
+Also change todocount span with following line
+
+```
+<span class="todo-count"><strong>{{activeTasks}}</strong> item left</span>
+```
+
+Now, let’s go over what we just did. We can see that we added new data-binding into the template:
+
+*ngFor: iterates through the todos array that we defined in the component and assigned in the let todo part.
+
+[ngClass]: applies a class when the expression evaluates to true. In our case, it uses class completed when isDone is true.
+
+[checked]: applies the checked attribute when the expression evaluates to true (todo.isDone).
+
+
+### 9.2 CREATE: Using form field INPUT
+
+Let’s start with the template this time. We have an input element for creating new tasks. Let’s listen to changes in the input form and when we click 
+enter it creates the tasks.
+
+```
+<input class="new-todo"
+           placeholder="What needs to be done?"
+           [(ngModel)]="newTodo"
+           (keyup.enter)="addTodo()"
+           autofocus>
+```
+
+Notice that we are using a new variable called newTodo and method called addTodo(). Let’s go to the controller and give it some functionality
+
+```
+private newTodo;
+
+addTodo(){
+    this.todoService.add({title: this.newTodo, isDone: false}).then(() => {
+      return this.getTodos();
+    }).then(() => {
+      this.newTodo = '';
+    });
+  }
+```
+
+First, we created a private variable that we are going to use to get values from the input form. 
+Then we created a new todo using the todo service method add. It doesn’t exist yet, so we are going to create it next
+
+```
+  add(newTodoObj){
+    return new Promise(resolve => {
+      todos.push(newTodoObj);
+      resolve(newTodoObj);
+    });
+  }
+```
+
+This adds the new element into the todos array and resolve the promise. That’s all. Go ahead a test it out creating a new todo element.
+
+
+
+
