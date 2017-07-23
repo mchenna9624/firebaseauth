@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TodoService} from './todo.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-todos',
@@ -12,13 +13,12 @@ export class TodosComponent implements OnInit {
   public activeTasks;
   public newTodo;
   public inactiveTasks;
+  public path;
 
+  constructor(private todoService: TodoService, private route: ActivatedRoute) { }
 
-
-  constructor(private todoService: TodoService) { }
-
-  getTodos(){
-    return this.todoService.get().then(todos => {
+  getTodos(query = ''){
+    return this.todoService.get(query).then(todos => {
       this.todos = todos;
       this.activeTasks = this.todos.filter(todo => todo.isDone).length;
       this.inactiveTasks = this.todos.length - this.activeTasks;
@@ -37,25 +37,34 @@ export class TodosComponent implements OnInit {
     todo.title = newValue;
     return this.todoService.put(todo).then(() => {
       todo.editing = false;
-      return this.getTodos();
+      return this.getTodos(this.path);
     });
   }
 
   destroyTodo(todo){
     this.todoService.delete(todo._id).then(() => {
-      return this.getTodos();
+      return this.getTodos(this.path);
     });
   }
 
   updateTodoStatus(todo){
     todo.isDone = !todo.isDone;
     return this.todoService.put(todo).then(() => {
-      return this.getTodos();
+      return this.getTodos(this.path);
+    });
+  }
+
+  clearCompletedTasks(){
+    return this.todoService.deleteCompleted().then(() => {
+      return this.getTodos(this.path);
     });
   }
 
   ngOnInit() {
-    this.getTodos();
+    this.route.params.subscribe(params => {
+      this.path = params['status'];
+      this.getTodos(this.path);
+    });
   }
 
 }

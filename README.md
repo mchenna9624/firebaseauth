@@ -514,13 +514,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TodosComponent } from './todos/todos.component';
-``import { Routes, RouterModule } from '@angular/router';``
+import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
-#####const routes: Routes = [
-#####  { path: ':status', component: TodosComponent },
-##### { path: '**', redirectTo: '/all' }
-#####];
+const routes: Routes = [
+ { path: ':status', component: TodosComponent },
+ { path: '**', redirectTo: '/all' }
+];
 
 
 @NgModule({
@@ -532,7 +532,7 @@ import { HttpModule } from '@angular/http';
     BrowserModule,
     FormsModule,
     HttpModule,
-    #####RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -547,3 +547,102 @@ Finally, we add it to the imports. So the app module uses it. Since the AppCompo
 That’s the place there the routes are going to render the component based on the path (in our case TodoComponent).
 
 Let’s go to app/app.component.html and replace <app-todos></app-todos> with <router-outlet></router-outlet>:
+
+### 10.1 Using routerLink and ActivatedRoute
+         
+         routerLink is the replacement of href for our dynamic routes. We have set it up to be /all, /complete and /active. Notice that the expression is an array. You can pass each part of the URL as an element of the array.
+         
+         ```
+             <ul class="filters">
+               <li>
+                 <a [routerLink]="['/all']" [class.selected]="path === 'all'">All</a>
+               </li>
+               <li>
+                 <a [routerLink]="['/active']" [class.selected]="path === 'active'">Active</a>
+               </li>
+               <li>
+                 <a [routerLink]="['/completed']" [class.selected]="path === 'completed'">Completed</a>
+               </li>
+             </ul>
+         ```
+         
+The second part we are doing is applying the selected class if the path matches the button. Yet, we haven’t populate the the path variable yet. 
+So let’s do that
+
+```
+.....................
+.....................
+import { ActivatedRoute } from '@angular/router';
+......................
+.....................
+
+constructor(private todoService: TodoService, private route: ActivatedRoute) { }
+
+.............
+.................
+
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.path = params['status'];
+      this.getTodos();
+    });
+  }
+
+```
+We added ActivatedRoute as a dependency and in the constructor. This gives us access to the all the route params such as path. 
+Notice that we are using it in the ngOnInit and set the path accordantly.
+
+Go to the browser and check out that the URL matches the active button. But, it doesn’t filter anything yet. Let’s fix that.
+
+### 10.2 Filtering Data Based On Route
+To filter todos by active and completed, we need to pass a parameter to the todoService.get.
+
+```
+  getTodos(query = ''){
+    return this.todoService.get(query).then(todos => {
+      this.todos = todos;
+      this.activeTasks = this.todos.filter(todo => todo.isDone).length;
+      this.inactiveTasks = this.todos.length - this.activeTasks;
+    });
+  }
+  
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.path = params['status'];
+      this.getTodos(this.path);
+    });
+  }
+```
+
+We added a new parameter query, which takes the path (active, completed or all). Then, we pass that parameter to the service. Let’s handle that in the service:
+
+```
+get(query = ''){
+    return new Promise(resolve => {
+      var data;
+
+      if(query === 'completed' || query === 'active'){
+        var isCompleted = query === 'completed';
+        data = todos.filter(todo => todo.isDone === isCompleted);
+      } else {
+        data = todos;
+      }
+
+      resolve(data)
+    });
+  }
+```
+
+So we added a filter by isDone when we pass either completed or active. If the query is anything else, we return all the todos tasks. That’s pretty much it, test it out!
+
+
+# 11. Clearning out Completed Tasks
+
+One last UI functionality, clearing out completed tasks button. 
+
+I am leaving out this functionality for your experiemental step. You can always refer github repo for code comparision.
+
+# Thank you.
+
+

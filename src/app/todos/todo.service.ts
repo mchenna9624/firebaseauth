@@ -12,8 +12,19 @@ export class TodoService {
 
   constructor() { }
 
-  get(){
-    return new Promise(resolve => {resolve(todos)});
+  get(query = ''){
+    return new Promise(resolve => {
+      var data;
+
+      if(query === 'completed' || query === 'active'){
+        var isCompleted = query === 'completed';
+        data = todos.filter(todo => todo.isDone === isCompleted);
+      } else {
+        data = todos;
+      }
+
+      resolve(data)
+    });
   }
 
   add(newTodoObj){
@@ -36,6 +47,13 @@ export class TodoService {
       let index = todos.findIndex(todo => todo._id === id);
       todos.splice(index, 1);
       resolve(true);
+    });
+  }
+
+  deleteCompleted(){
+    return new Promise(resolve => {
+      todos = todos.filter(todo => !todo.isDone);
+      resolve(todos);
     });
   }
 
