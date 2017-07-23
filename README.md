@@ -29,31 +29,25 @@ Angular CLI is the best way to get us started. We can download the tool and crea
 # Create new Angular CLI Project
          ng new MyToDo
 ```
-1
-2
-3
-4
-5
-# install angular-cli globally
-npm i -g angular-cli@1.0.0-beta.17
-# create a new project
-ng new Todos2 --style=scss
-Note The last command takes some minutes. Leave it running and continue reading this tutorial.
-
 The command ng new will do a bunch of things for us:
 
 Initialize a git repository
 Creates an package.json files with all the Angular dependencies.
-Setup TypeScript, Webpack, Tests (Jasmine, Protractor, Karma). Don’t worry if you don’t what they are. We are going to cover them later.
+Setup TypeScript, Webpack, Tests (Jasmine, Protractor, Karma). 
 It creates the src folder with the bootstrapping code to load our app into the browser
 Finally, it does an npm install to get all the packages into node_modules.
-Let’s run the app!
 
-1
-2
-# builds the app and run it on port 9000
-ng serve ---port 9000
-Open your browser on http://localhost:9000/ and you should see “Loading…” and then it should switch to “app works!”. Awesome!
+###Let’s run the app!
+```
+ng serve
+```
+Open your browser on http://localhost:4200/ and you should see “Welcome to App with some links”. Awesome!
+
+Alternatively you can specify port if you want to run on any particular port 
+
+```
+ng serve --port 8080
+```
 
 Now let’s dive into the src folder and get familiarized with the structure.
 
