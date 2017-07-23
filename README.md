@@ -170,3 +170,94 @@ This command will generate a new folder with following 4 files and also updates 
 Go ahead and inspect each one. It will look similar to the app components. 
 Go to src/app/app.component.html, and remove the ```<h1>Welcome to {{title}}!</h1>``` and replace it with: ```<app-todos></app-todos>```
 If you have ng serve running, it should automatically update and show todos works!
+
+# 5. Todos Template
+“todos works!” is not useful. Let’s change that by adding some HTML code to represent our todo tasks. 
+Go to the src/app/todos/todos.component.html file and copy-paste this HTML code:
+
+```
+<section class="todoapp">
+  <header class="header">
+    <h1>Todo (s)</h1>
+    <input class="new-todo" placeholder="What needs to be done?" autofocus>
+  </header>
+  <!-- This section should be hidden by default and shown when there are todos -->
+  <section class="main">
+    <label for="toggle-all">Mark all as complete</label>
+    <input id="toggle-all" class="toggle-all" type="checkbox">
+    <ul class="todo-list">
+      <!-- These are here just to show the structure of the list items -->
+      <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
+      <li class="completed">
+        <div class="view">
+          <input class="toggle" type="checkbox" checked>
+          <label>Install angular-cli</label>
+          <button class="destroy"></button>
+        </div>
+        <input class="edit" value="Create a TodoMVC template">
+      </li>
+      <li>
+        <div class="view">
+          <input class="toggle" type="checkbox">
+          <label>Understand Angular2 apps</label>
+          <button class="destroy"></button>
+        </div>
+        <input class="edit" value="Rule the web">
+      </li>
+    </ul>
+  </section>
+  <!-- This footer should hidden by default and shown when there are todos -->
+  <footer class="footer">
+    <!-- This should be `0 items left` by default -->
+    <span class="todo-count"><strong>0</strong> item left</span>
+    <!-- Remove this if you don't implement routing -->
+    <ul class="filters">
+      <li>
+        <a class="selected" href="#/">All</a>
+      </li>
+      <li>
+        <a href="#/active">Active</a>
+      </li>
+      <li>
+        <a href="#/completed">Completed</a>
+      </li>
+    </ul>
+    <!-- Hidden if no completed items are left ↓ -->
+    <button class="clear-completed">Clear completed</button>
+  </footer>
+</section>
+
+```
+
+This has the general structure about how we want to represent our tasks. Right now it has hard-coded tasks. 
+We are going to slowly turn it into a dynamic app using Angular 2 data bindings. But before that let’s add some styling so things look better.
+
+# 6. Styling the todos app
+  
+  We are going to use a community maintained CSS for Todo apps. We can go ahead and download the CSS:
+  
+  ```
+     1. npm install --save todomvc-app-css
+  ```
+  This will install a CSS file that we can use to style our Todos app and make it look nice. In the next section, we are going to explain 
+  how to use it with the angular-cli.json.
+  
+  
+# 7. Adding global styles to angular-cli.json
+
+angular-cli.json is a special file that tells the Angular CLI how to build your application. You can define how to name your root folder, 
+tests and much more. What we care right now, is telling the angular CLI to use our new CSS file from the node modules. 
+You can do it by adding the following line into the styles array:
+
+```
+"styles": [
+  "styles.scss",
+  "../node_modules/todomvc-app-css/index.css"
+],
+```
+If you stop and start ng serve, you will see that now it looks much better.
+
+
+We have the skeleton so far. Now we are going to make it dynamic and allow users to add/remove/update/sort tasks. 
+We are going to do two versions one serverless and another one using a Node.js/Express server. We are going to be using promises all the time, 
+so when we use a real API, the service is the only one that has to change.  
