@@ -15,7 +15,7 @@ If you get the versions Node 4.x.x or higher and NPM 3.x.x. or higher you are al
 
 Let’s move on to Angular. We are going to create a Todo app. We will be able to CRUD (create-read-update-delete) tasks:
 
-Live Demo: <a href="https://stormy-woodland-23554.herokuapp.com/">Angular 2 Todo app</a>
+Live Demo: <a href="https://stormy-woodland-23554.herokuapp.com/" type="_blank">Angular 2 Todo app</a>
 
 # 2. Getting Start with Angular CLI
 
@@ -121,6 +121,32 @@ You will see some default code but important piece of code is
 Just keep above code and delete rest all the code. which is not needed for our demo app.
 
 Test your changes running:  ng serve 
-open port you specified in browser. In my case it is default which is  http://localhost:4200   you should see 'MY TODOs' on the scree 
+open port you specified in browser. In my case it is default which is  http://localhost:4200   you should see 'Welcome to MY TODOs!' on the scree 
+
+# 3. Deploying Angular CLI App into Heroku Cloud
+
+Angular2 CLI generated apps can’t be directly deployed in Heroku. But it is easy to configure them to do that using scripts to build and serve the app.
+
+I used angular-cli 1.2.3 to generate and Angular2 app. And configured the package.json file using heroku-prebuild, heroku-postbuild and start scripts 
+to build the app and serve it using http-server.
+
+```
+"scripts": {
+  "heroku-prebuild": "npm install -g http-server",
+  "heroku-postbuild": "ng build --prod",
+  "start": "http-server dist/",
+```
+  
+Heroku-prebuild and heroku-postbuild are Heroku-specific build steps, they are equivalent to the generic preinstall or postinstall but using them 
+we avoid running those scripts locally.
+
+In Heroku dev-dependencies are not installed by default, that means that to make the ng build script to work we need to move dev-dependency to 
+the dependencies block.
+
+I moved all of my dev-dependencies to dependencies section in package.json file.
+
+##### NOTE: You can only move only the dependencies required for the build but not the testing or linting dependencies.
+
+#### Another alternative to the http-server solution explained here is to use the NGINX and <a href="https://github.com/heroku/heroku-buildpack-static" type="_blank">Heroku-buildpack-static.</a>
 
 
