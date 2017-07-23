@@ -15,7 +15,7 @@ If you get the versions Node 4.x.x or higher and NPM 3.x.x. or higher you are al
 
 Let’s move on to Angular. We are going to create a Todo app. We will be able to CRUD (create-read-update-delete) tasks:
 
-Live Demo: <a href="https://stormy-woodland-23554.herokuapp.com/" type="_blank">Angular 2 Todo app</a>
+Live Demo: <a href="https://stormy-woodland-23554.herokuapp.com/" target="_blank">Angular 2 Todo app</a>
 
 # 2. Getting Start with Angular CLI
 
@@ -147,6 +147,6 @@ I moved all of my dev-dependencies to dependencies section in package.json file.
 
 ##### NOTE: You can only move only the dependencies required for the build but not the testing or linting dependencies.
 
-#### Another alternative to the http-server solution explained here is to use the NGINX and <a href="https://github.com/heroku/heroku-buildpack-static" type="_blank">Heroku-buildpack-static.</a>
+#### Another alternative to the http-server solution explained here is to use the NGINX and <a href="https://github.com/heroku/heroku-buildpack-static" target="_blank">Heroku-buildpack-static.</a>
 
 
