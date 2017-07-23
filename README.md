@@ -259,5 +259,23 @@ If you stop and start ng serve, you will see that now it looks much better.
 
 
 We have the skeleton so far. Now we are going to make it dynamic and allow users to add/remove/update/sort tasks. 
-We are going to do two versions one serverless and another one using a Node.js/Express server. We are going to be using promises all the time, 
-so when we use a real API, the service is the only one that has to change.  
+
+# 8. Todo Service
+
+Let’s first start by creating a service that contains an initial list of tasks that we want to manage. 
+We are going to use a service to manipulate the data. Let’s create the service with the CLI by typing:
+
+```
+ 1. ng g service todos/todo
+``` 
+This will create two files with a warning
+
+```
+  1. create src/app/todos/todo.service.spec.ts    is created with a unit test for your new service
+  2. create src/app/todos/todo.service.ts   is created that exports a service class named TodoService
+  3. WARNING Service is generated but not provided, it must be provided to be used
+```
+Notice how Angular CLI warns that the service is generated but not provided anywhere yet. 
+It is up to you to register the service as a provider by adding it to the providers: [] array where you need it (e.g. in a module or component). 
+
+# 9. CRUD Functionality
