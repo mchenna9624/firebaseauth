@@ -24,9 +24,10 @@ Angular CLI is the best way to get us started. We can download the tool and crea
 
 ```
 # Install Angular CLI Globally
-npm install -g @angular/cli@latest
+         npm install -g @angular/cli@latest       
+         
 # Create new Angular CLI Project
-ng new MyToDo
+         ng new MyToDo
 ```
 1
 2
