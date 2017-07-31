@@ -53,5 +53,6 @@ This step is done in the Firebase backend which is called Firebase console and a
  You first need to create a Firebase account, so that you’re able to login to the console. After having logged in you’ll be able to see the following screen:
  
  
+ ![Alt text](https://raw.githubusercontent.com/mchenna9624/firebaseauth/master/src/assets/images/firebase1.png)
 
 ### 
