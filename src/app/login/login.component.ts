@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("Login component initialise");
+
   }
 
   loginGoogle() {
@@ -29,7 +29,4 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
-
-
 }

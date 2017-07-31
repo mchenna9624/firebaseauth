@@ -76,12 +76,7 @@ export class TodosComponent implements OnInit {
       this.getTodos(this.path);
     });
 
-/*  this.auth.getAuthState().subscribe(
-      (user) => {
-        if(!user){
-          this.router.navigate(['/login']);
-        }
-      });*/
+
   }
 
 }
