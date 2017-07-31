@@ -220,14 +220,15 @@ These settings are specific to the Firebase project and can be retrieved from th
    
    ```
         1. ng generate service auth
+        
    ```
    
     The following two files are added to the project structure:
     
-    ```
+    
         1. src/app/auth.service.ts
         2. src/app/auth.service.spec.ts
-   ``` 
+    
 As we’re not focusing on setting up test cases, we’re not going to use file auth.service.spec.ts in this tutorial. 
 The service implementation is done in file auth.service.ts:
 
