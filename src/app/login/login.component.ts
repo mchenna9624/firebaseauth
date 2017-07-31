@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
   loginGoogle() {
     this.auth.loginWithGoogle().then((result) =>{
       if(result){
-        location.href = "all";
+        //location.href = "all";
+        location.replace('https://todo-firebaseauth.herokuapp.com');
       }
     });
   }
