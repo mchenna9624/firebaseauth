@@ -7,6 +7,7 @@
 <section class="todoapp">
   <header class="header">
     <h1>Todo (s)</h1>
+    <a href="javascript:;" style="font-size: 24px;" (click)="logout()">Logout</a>
     <input class="new-todo"
            placeholder="What needs to be done?"
            [(ngModel)]="newTodo"
@@ -15,7 +16,7 @@
   </header>
   <!-- This section should be hidden by default and shown when there are todos -->
   <section class="main">
-    <label for="toggle-all">Mark all as complete</label>
+
     <input id="toggle-all" class="toggle-all" type="checkbox">
     <ul class="todo-list">
       <!-- These are here just to show the structure of the list items -->

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {TodoService} from './todo.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../auth.service';
+
 
 @Component({
   selector: 'app-todos',
@@ -15,7 +17,7 @@ export class TodosComponent implements OnInit {
   public inactiveTasks;
   public path;
 
-  constructor(private todoService: TodoService, private route: ActivatedRoute) { }
+  constructor(private todoService: TodoService, private route: ActivatedRoute, private router: Router, private auth: AuthService) { }
 
   getTodos(query = ''){
     return this.todoService.get(query).then(todos => {
@@ -60,11 +62,26 @@ export class TodosComponent implements OnInit {
     });
   }
 
+  logout(){
+    this.auth.logout().then((result) => {
+      if(result){
+        this.route.params['status'] = 'login';
+      }
+    });
+  }
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.path = params['status'];
       this.getTodos(this.path);
     });
+
+/*  this.auth.getAuthState().subscribe(
+      (user) => {
+        if(!user){
+          this.router.navigate(['/login']);
+        }
+      });*/
   }
 
 }
